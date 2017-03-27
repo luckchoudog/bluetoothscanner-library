@@ -105,17 +105,22 @@ Set the number of matches for Bluetooth LE scan filters hardware match.The num o
 
 ### setMatchMode(int matchMode) 
 Set match mode for Bluetooth LE scan filters hardware match. The match mode can be one of{ScanSettings.MATCH_MODE_AGGRESSIVE , ScanSettings.MATCH_MODE_STICKY}
+
 ### setUseHardwareFilteringIfSupported(boolean use)
 Several phones may have some issues when it comes to offloaded filtering. Even if it should be supported, it may not work as expected. It has been observed for example, that setting 2 filters with different devices addresses on Nexus 6 with Lollipop gives no callbacks if one or both devices advertise. See [https://code.google.com/p/android/issues/detail?id=181561](https://code.google.com/p/android/issues/detail?id=181561 "").<p> * True to enable (default) hardware offload filtering.</p>
 <p> * If false a compat software filtering will be used (uses much more resources).</p>
+
 ### setUseHardwareBatchingIfSupported(boolean use) 
 Some devices, for example Samsung S6 and S6 Edge with Lollipop, return always the same RSSI value for all devices if offloaded batching is used. Batching may also be emulated using a compat mechanism - a periodically called timer. Timer approach requires more resources but reports devices in constant delays and works on devices that does not support offloaded batching. In comparison, when setReportDelay(..) is called with parameter 1000 the standard, hardware triggered callback will be called every 1500ms +-200ms.
 <p> * True to enable (default) hardware offloaded batching if they are supported. </p><p> * False to always use compat mechanism.</p>
+
 ### setUseHardwareCallbackTypesIfSupported(boolean use)
 This method may be used when callback type is set to a value different than {@link #CALLBACK_TYPE_ALL_MATCHES}. When disabled, the Scanner Compat itself will take care of reporting first match and match lost. The compat behaviour may differ from the one natively supported on Android Marshmallow.  Also, in compat mode values set by setMatchMode(int) and setNumOfMatches(int) are ignored. Instead use setMatchOptions(long, long) to set timer options.
 <p> * Use true to enable (default) the offloaded match reporting if hardware supports it.</p><p> * False to enable compat implementation.</p>
+
 ### setPowerSave(final long scanInterval, final long restInterval)
 Pre-Lollipop scanning requires a wakelock and the CPU cannot go to sleep. To conserve power we can optionally scan for a certain duration (scan interval) and then rest for a time before starting scanning again. Won't affect Lollipop or later devices.
+
 ### setMatchOptions(final long deviceTimeoutMillis, final long taskIntervalMillis)
 The match options are used when the callback type has been set to ScanSettings.CALLBACK_TYPE_FIRST_MATCH or  ScanSettings.CALLBACK_TYPE_MATCH_LOST and hardware does not support those types. In that case  BluetoothLeScannerCompat starts a task that runs periodically and calls ScanCallback.onScanResult(int, ScanResult) with type CALLBACK_TYPE_MATCH_LOST if a device has not been seen for at least given time.
 
